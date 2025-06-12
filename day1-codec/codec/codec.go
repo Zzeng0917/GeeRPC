@@ -9,10 +9,11 @@ type Header struct {
 }
 
 type Codec interface {
-	io.Closer
-	ReadHeader(*Header) error
-	ReadBody(interface{}) error
+	io.Closer                   //释放编解码器资源
+	ReadHeader(*Header) error   //从输入流读取请求头
+	ReadBody(interface{}) error //从输入流读取消息体
 	Write(*Header, interface{}) error
+	//将消息头和消息体序列化为字节流，并写入输出流
 }
 
 type NewCodecFunc func(io.ReadWriteCloser) Codec
